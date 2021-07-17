@@ -11,6 +11,8 @@ INSERT INTO USUARIO VALUES
 
 -- TIMESTAMP USA FOTMATO 'yyyy-MM-dd HH:mm:ss'
 -- psql admin -h 127.0.0.1 -d banquinho -f /home/gabriel/banquinho/database.sql
+-- abrir o postgres: sudo -i -u postgres
+-- fechar o postgres: \q
 
 -- SELECT E.USUARIO, (SUM( G.GASTOS_GANHOS)) FROM ENTRA E JOIN GRUPO_DE_PARTICIPANTES G ON ( E.ATIVIDADE = G.ATIVIDADE AND E.CATEGORIA = G.CATEGORIA)GROUP BY E.USUARIO;
 
@@ -30,7 +32,6 @@ INSERT INTO QUALIFICACOES VALUES
     ('ga', 'curso da alura'),
     ('atlow', 'Telecurso 2000');
 
-
 INSERT INTO ORGANIZADOR
     SELECT USERNAME FROM USUARIO WHERE USUARIO.CARGO = ('ORGANIZADOR');
 
@@ -46,15 +47,6 @@ INSERT INTO ESPECIALISTA
 INSERT INTO AUTORIZACOES_LEGAIS VALUES
     ('botta', 'Alvará de autônomo'),
     ('botta', 'CNH de categoria D');
-
--- INSERT INTO CONTATO VALUES(
---     SELECT ID FROM USUARIO)
-
--- INSERT INTO CONDICOES_MEDICAS VALUES(
---     SELECT ID FROM USUARIO)
-
--- INSERT INTO QUALIFICACOES VALUES(
---     SELECT ID FROM USUARIO)
 
 INSERT INTO CARAVANA VALUES
     ('guilhos', 'WATANUKI14', 'Caravana da Coragem', '2006-04-01 15:00:00', '2021-04-01 22:00:00', 'Conheça a aurora boreal conosco'),
@@ -76,7 +68,7 @@ INSERT INTO ITINERARIO VALUES
     (3, 'botta', 'ODRENAEL19', '2012-05-11 23:20:00', '2012-05-16 08:00:00', 2);
 
 INSERT INTO ATIVIDADE VALUES
-    (1, 1, 'Passeio de barco no frio extremo', '2006-04-01 15:00:00', '2006-04-01 16:00:00', 'Apesar de exótico, esse passeio atrai milhares de turistas todos os anos', 'Alaska', 360.0, 0.0, 1.0),
+    (1, 1, 'Passeio de barco no frio extremo', '2006-04-01 15:00:00', '2006-04-03 16:00:00', 'Apesar de exótico, esse passeio atrai milhares de turistas todos os anos', 'Alaska', 360.0, 0.0, 1.0),
     (2, 3, 'Escalada 2km acima', '2012-05-12 15:30:00', '2012-05-15 10:00:00', 'Não há forma de se sentir revigorado melhor que escalar uma montanha', 'Nepal', 43.2, 27.5, 4000.0);
 
 INSERT INTO RESTRICOES VALUES
@@ -85,10 +77,10 @@ INSERT INTO RESTRICOES VALUES
     (2, 'Próteses de metal nos braços ou pernas');
     
 INSERT INTO GRUPO_DE_PARTICIPANTES VALUES
-    (1, 'Especialistas:paramédico', 2000.0),
-    (1, 'Turistas', -150.0),
-    (2, 'Especialistas:alpinista', 1800.0),
-    (2, 'Turistas', -800.0);
+    (1, 'Especialistas:paramédico', -2000.0),
+    (1, 'Turistas', 150.0),
+    (2, 'Especialistas:alpinista', -1800.0),
+    (2, 'Turistas', 800.0);
     
 INSERT INTO QUALIFICACOES_NECESSARIAS VALUES
     (2, 'Especialistas:alpinista', 'Autorização de guia'),
@@ -103,3 +95,55 @@ INSERT INTO INSTRUMENTOS_NECESSARIOS VALUES
 INSERT INTO INSTRUMENTOS_PROVIDENCIADOS VALUES
     (1, 'Especialistas:paramédico', 'Kit primeiros socorros'),
     (2, 'Especialistas:alpinista', 'Corda');
+
+INSERT INTO ESTADIA VALUES
+    (1, 'Quarto 12, Pousada do Esquimó, Juneau, Alaska', '2006-04-01 18:00:00', '2007-05-12 08:00:00', 3, 1),
+    (2, 'Quarto 2, Pousada do Esquimó, Juneau, Alaska', '2006-04-01 18:00:00', '2007-05-12 08:00:00', 4, 1),
+    (3, 'Quarto 37, Pousada do Esquimó, Juneau, Alaska', '2006-04-01 18:00:00', '2007-05-12 08:00:00', 2, 1),
+    (4, 'Estância Kuloth, Katmandu, Nepal', '2012-05-11 23:59:00', '2012-05-14 14:00:00', 3, 3);
+
+INSERT INTO SERVICO_OFERECIDO VALUES
+    (1, 'Café da manhã'),
+    (2, 'Café da manhã'),
+    (3, 'Café da manhã'),
+    (4, 'Chá de ervas'),
+    (4, 'Sauna');
+
+INSERT INTO TRANSPORTE VALUES
+    ('EEQ1234', '2006-04-01 16:00:00', 'Juneau', 4, '2006-04-02 16:00:00', 'Douglas Island', 'carro', 1),
+    ('ASXJ3019', '2012-05-12 17:00:00', 'Katmandu', 3, '2012-05-14 12:00:00', 'Parque Nacional Langtang', 'jipe', 2);
+
+INSERT INTO TRANSACOES_FINANCEIRAS VALUES
+    ('ga', '2006-03-30 17:00:00', 'TED', 150.0, '123456-0'),
+    ('atlow', '2006-03-15 21:37:00', 'Deposito', 150.0, '654321-0');
+
+INSERT INTO LOCOMOVE VALUES
+    ('ga', '2006-04-01 16:00:00', 50, 'EEQ1234'),
+    ('atlow', '2012-05-12 17:00:00', 100, 'ASXJ3019');
+
+INSERT INTO OCUPA VALUES 
+    ('ga', 1, 0.0),
+    ('botta', 2, 0.0),
+    ('vini', 3, 0.0),
+    ('atlow', 4, 15.0);
+
+INSERT INTO ADENTRA VALUES
+    ('ga', 1, 500.0),
+    ('botta', 1, 500.0),
+    ('vini', 1, 500.0),
+    ('atlow', 3, 15.0);
+
+INSERT INTO PARTICIPA VALUES
+    ('ga', 'guilhos', 'WATANUKI14'),
+    ('atlow', 'botta', 'ODRENAEL19');
+
+INSERT INTO AUXILIA VALUES
+    ('carlao', 'botta', 'ODRENAEL19'),
+    ('madrugideon', 'guilhos', 'WATANUKI14');
+
+INSERT INTO ENTRA VALUES
+    ('ga', 1, 'Turistas'),
+    ('atlow', 2, 'Turistas'),
+    ('vini', 1, 'Turistas'),
+    ('madrugideon', 1, 'Especialistas:paramédico'),
+    ('carlao', 2, 'Especialistas:alpinista');
