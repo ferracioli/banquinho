@@ -65,7 +65,7 @@ $ g++ main.cpp -lpqxx -lpq
 Execute os arquivos de esquema do banco, inserções nas tabelas e consultas ao banco:
 
 ```shell
-postgres@server:~$ psql admin -h 127.0.0.1 -d banquinho -f /path/to/database.sql
-postgres@server:~$ psql admin -h 127.0.0.1 -d banquinho -f /path/to/populate.sql
+postgres@server:~$ psql admin -h 127.0.0.1 -d banquinho -f /path/to/esquema.sql
+postgres@server:~$ psql admin -h 127.0.0.1 -d banquinho -f /path/to/dados.sql
 postgres@server:~$ psql admin -h 127.0.0.1 -d banquinho -f /path/to/consultas.sql
 ```

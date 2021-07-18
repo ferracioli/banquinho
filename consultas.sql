@@ -1,4 +1,9 @@
-/* CONTA OS GASTOS TOTAIS DO MOCHILEIRO */
+/* 
+    Contabilista os gastos de cada mochileiro por meio de dois selects aninhados em um terceiro:
+    O primeiro select contabiliza os gastos das atividades nas quais os turistas participaram
+    O segundo select contabiliza o custo inicial para a participação de cada itinerário
+    O select exterior soma estes valores em uma tabela única
+ */
 SELECT M.MOCHILEIRO, SUM(M.GASTOS_ATIVIDADES_TOTAIS)+SUM(B.CUSTO_BASE_TOTAL) AS GASTOS_TOTAIS, M.ORGANIZADOR, M.CODIGO_INTERNO
     FROM (
         SELECT P.MOCHILEIRO, (SUM(G.GASTOS_GANHOS)) AS GASTOS_ATIVIDADES_TOTAIS, C.ORGANIZADOR, C.CODIGO_INTERNO 
@@ -21,7 +26,12 @@ SELECT M.MOCHILEIRO, SUM(M.GASTOS_ATIVIDADES_TOTAIS)+SUM(B.CUSTO_BASE_TOTAL) AS 
     ON (M.MOCHILEIRO = B.USUARIO AND M.ORGANIZADOR = B.ORGANIZADOR AND M.CODIGO_INTERNO = B.CODIGO_INTERNO)
     GROUP BY M.MOCHILEIRO, M.ORGANIZADOR, M.CODIGO_INTERNO;
 
-/* conta os ganhos do especialista */
+/* 
+    Contabilista os ganhos de cada especialistas por meio de dois selects aninhados em um terceiro:
+    O primeiro select contabiliza os ganhos das atividades nas quais os especialistas trabalharam
+    O segundo select contabiliza o custo inicial para a participação de cada itinerário
+    O select exterior soma estes valores em uma tabela única para mostrar o saldo dos especialistas
+ */
 SELECT E.ESPECIALISTA, SUM(E.GANHOS_ATIVIDADES_TOTAIS)-SUM(B.CUSTO_BASE_TOTAL) AS GANHOS_TOTAIS, E.ORGANIZADOR, E.CODIGO_INTERNO
     FROM (
         SELECT AU.ESPECIALISTA, -1*(SUM(G.GASTOS_GANHOS)) AS GANHOS_ATIVIDADES_TOTAIS, C.ORGANIZADOR, C.CODIGO_INTERNO 
@@ -44,7 +54,13 @@ SELECT E.ESPECIALISTA, SUM(E.GANHOS_ATIVIDADES_TOTAIS)-SUM(B.CUSTO_BASE_TOTAL) A
     ON (E.ESPECIALISTA = B.USUARIO AND E.ORGANIZADOR = B.ORGANIZADOR AND E.CODIGO_INTERNO = B.CODIGO_INTERNO)
     GROUP BY E.ESPECIALISTA, E.ORGANIZADOR, E.CODIGO_INTERNO;
 
-/* CONTA OS GANHOS DO ORGANIZADOR */
+/* 
+    Contabilista o lucro do organizador por meio de três selects aninhados em um quarto:
+    O primeiro select contabiliza os ganhos originados da participação dos mochileiros nas atividades
+    O segundo select contabiliza os gastos com os especialistas de cada atividade
+    O terceiro select soma os custos base pagos tanto por mochileiros quanto por especialistas
+    O select exterior soma estes valores em uma tabela única para mostrar o lucro do organizador
+ */
 SELECT U.ORGANIZADOR, U.CODIGO_INTERNO, U.USUARIO, SUM(B.CUSTO_BASE_TOTAL)-SUM(U.GANHOS_ATIVIDADES_TOTAIS) AS GANHOS_TOTAIS
     FROM (
         SELECT P.MOCHILEIRO AS USUARIO, -1*(SUM(G.GASTOS_GANHOS)) AS GANHOS_ATIVIDADES_TOTAIS, C.ORGANIZADOR, C.CODIGO_INTERNO 
@@ -80,24 +96,24 @@ SELECT U.ORGANIZADOR, U.CODIGO_INTERNO, U.USUARIO, SUM(B.CUSTO_BASE_TOTAL)-SUM(U
     ON (U.USUARIO = B.USUARIO AND U.ORGANIZADOR = B.ORGANIZADOR AND U.CODIGO_INTERNO = B.CODIGO_INTERNO)
     GROUP BY U.USUARIO, U.ORGANIZADOR, U.CODIGO_INTERNO;
 
-/* Lista as caravanas abertas atualmente */
-SELECT AU.ESPECIALISTA AS USUARIO, -1*(SUM(G.GASTOS_GANHOS)) AS GANHOS_ATIVIDADES_TOTAIS, C.ORGANIZADOR, C.CODIGO_INTERNO 
-    FROM AUXILIA AU JOIN CARAVANA C
-    ON (AU.ORGANIZADOR = C.ORGANIZADOR AND AU.CODIGO_INTERNO = C.CODIGO_INTERNO) JOIN ITINERARIO I
-    ON (C.ORGANIZADOR = I.ORGANIZADOR AND C.CODIGO_INTERNO = I.CODIGO_INTERNO) JOIN ADENTRA AD
-    ON (I.ID = AD.ITINERARIO) JOIN ATIVIDADE A
-    ON (AD.ITINERARIO = A.ITINERARIO) JOIN GRUPO_DE_PARTICIPANTES G
-    ON (A.ID = G.ATIVIDADE) JOIN ENTRA E
-    ON (G.ATIVIDADE = E.ATIVIDADE AND G.CATEGORIA = E.CATEGORIA AND AU.ESPECIALISTA = E.USUARIO AND E.USUARIO = AD.USUARIO)
-    GROUP BY AU.ESPECIALISTA, C.ORGANIZADOR, C.CODIGO_INTERNO;
-
-/* PROCURA NO BANCO A ESTADIA COM A MENOR RELAÇÃO VAGAS/PREÇO */
+/* Lista as caravanas que ainda não partiram, mostrando o tempo restante para cada uma partir
+    e ordenando por caravana com data de partida mais próxima */
 SELECT *, AGE(C.PARTIDA, CURRENT_TIMESTAMP) 
     AS REMAINING_TIME FROM CARAVANA C 
     WHERE EXTRACT(EPOCH FROM(C.PARTIDA - CURRENT_TIMESTAMP)) > 0
-    ORDER BY REMAINING_TIME;
+    ORDER BY REMAINING_TIME ASC;
 
-/* Conta o número de mochileiros, especialistas e itinerários de cada caravana */
+/* Conta em quantas mochiladas cada mochileiro já participou */
+SELECT P.MOCHILEIRO, COUNT(*) AS QUANTIDADE_DE_MOCHILADAS FROM PARTICIPA P
+    GROUP BY P.MOCHILEIRO;
+
+/* 
+    Conta o número de mochileiros, especialistas e itinerários de cada caravana
+    O primeiro select interior conta quantos mochileiros estão em cada caravana
+    O segundo select interior conta quantos especialistas estão em cada caravana
+    O terceiro select interior conta os itinerários disponíveis em cada caravana
+    O select externo combina estas informações em uma tabela única 
+*/
 SELECT M.ORGANIZADOR, M.CODIGO_INTERNO, M.NO_MOCHILEIROS, B.NO_ESPECIALISTAS, I.NO_ITINERARIOS
     FROM (
         SELECT C.ORGANIZADOR, C.CODIGO_INTERNO, COUNT(*) AS NO_MOCHILEIROS FROM CARAVANA C JOIN PARTICIPA P
@@ -118,7 +134,7 @@ SELECT M.ORGANIZADOR, M.CODIGO_INTERNO, M.NO_MOCHILEIROS, B.NO_ESPECIALISTAS, I.
     ON (M.ORGANIZADOR = I.ORGANIZADOR AND M.CODIGO_INTERNO = I.CODIGO_INTERNO)
 GROUP BY M.ORGANIZADOR, M.CODIGO_INTERNO, M.NO_MOCHILEIROS, B.NO_ESPECIALISTAS, I.NO_ITINERARIOS;
 
-/* mostra todas as atividades que estão passando por cada ponto turístico */
+/* A partir de cada ponto turístico do banco, lista todas as atividades que passam por cada um */
 SELECT P.ID AS ID_PONTO_TURISTICO, P.NOME AS NOME_PONTO_TURISTICO, A.ID AS ID_ATIVIDADE, A.NOME AS NOME_ATIVIDADE
     FROM PONTO_TURISTICO P JOIN ITINERARIO I
         ON (P.ID = I.PONTO_TURISTICO) JOIN ATIVIDADE A
@@ -126,6 +142,19 @@ SELECT P.ID AS ID_PONTO_TURISTICO, P.NOME AS NOME_PONTO_TURISTICO, A.ID AS ID_AT
         GROUP BY P.ID, P.NOME, A.ID, A.NOME
     ORDER BY P.ID;
 
-/* Conta em quantas mochiladas cada mochileiro já participou */
-SELECT P.MOCHILEIRO, COUNT(*) AS QUANTIDADE_DE_MOCHILADAS FROM PARTICIPA P
-    GROUP BY P.MOCHILEIRO;
+
+
+
+
+-- APAGAR <======================================================
+/* ???????*/
+SELECT AU.ESPECIALISTA AS USUARIO, -1*(SUM(G.GASTOS_GANHOS)) AS GANHOS_ATIVIDADES_TOTAIS, C.ORGANIZADOR, C.CODIGO_INTERNO 
+    FROM AUXILIA AU JOIN CARAVANA C
+    ON (AU.ORGANIZADOR = C.ORGANIZADOR AND AU.CODIGO_INTERNO = C.CODIGO_INTERNO) JOIN ITINERARIO I
+    ON (C.ORGANIZADOR = I.ORGANIZADOR AND C.CODIGO_INTERNO = I.CODIGO_INTERNO) JOIN ADENTRA AD
+    ON (I.ID = AD.ITINERARIO) JOIN ATIVIDADE A
+    ON (AD.ITINERARIO = A.ITINERARIO) JOIN GRUPO_DE_PARTICIPANTES G
+    ON (A.ID = G.ATIVIDADE) JOIN ENTRA E
+    ON (G.ATIVIDADE = E.ATIVIDADE AND G.CATEGORIA = E.CATEGORIA AND AU.ESPECIALISTA = E.USUARIO AND E.USUARIO = AD.USUARIO)
+    GROUP BY AU.ESPECIALISTA, C.ORGANIZADOR, C.CODIGO_INTERNO;
+-- ==============================================================
