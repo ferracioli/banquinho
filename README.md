@@ -62,10 +62,16 @@ $ g++ main.cpp -lpqxx -lpq
 
 ## Uso
 
-Execute os arquivos de esquema do banco, inserções nas tabelas e consultas ao banco:
+Execute os arquivos de esquema do banco, inserções nas tabelas e consultas ao banco, substituindo os endereços de acordo
 
 ```shell
 postgres@server:~$ psql admin -h 127.0.0.1 -d banquinho -f /path/to/esquema.sql
 postgres@server:~$ psql admin -h 127.0.0.1 -d banquinho -f /path/to/dados.sql
 postgres@server:~$ psql admin -h 127.0.0.1 -d banquinho -f /path/to/consultas.sql
+```
+
+Execute o programa
+
+```shell
+$ ./a.out
 ```

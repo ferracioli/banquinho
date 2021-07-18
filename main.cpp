@@ -11,8 +11,8 @@ static inline void rtrim(std::string &s) {
 
 // Insere um novo usuário na base de dados após as validações
 void criar_usuario(pqxx::connection& c){
-	// pqxx::work w(c);
-	pqxx::nontransaction n(c);
+	pqxx::work w(c);
+	// pqxx::nontransaction n(c);
 	std::string sql;
 	std::string str, username;
 	pqxx::result r;
@@ -27,7 +27,7 @@ void criar_usuario(pqxx::connection& c){
 	// Verifica se já existe um usuário com este nome
 	sql = "SELECT * FROM USUARIO WHERE USERNAME='" + str + "';";
 	// std::cout << sql.c_str() << std::endl;
-	r = n.exec(sql.c_str());
+	r = w.exec(sql.c_str());
 
 	if(!r.empty()){
 		std::cout << "Username já existe. Cancelando..." << std::endl;
@@ -40,18 +40,14 @@ void criar_usuario(pqxx::connection& c){
 
 	// Faz a leitura do nome e já faz a validação do tamanho
 	std::cout << "Nome: ";
-	std::cin >> str;
-	if(str.length() > 50){
-		str.resize(50);
-	}
+	do{
+		std::getline (std::cin,str);
+		if(str.length() > 50){
+			str.resize(50);
+		}
+		rtrim(str);
+	}while(str.length() <= 0);
 	sql += str + "', '";
-
-	// Default para mochileiro
-	// std::cout << "Cargo: ";
-	// std::cin >> str;
-	// if(str.length() > 13){
-	// 	str.resize(13);
-	// }
 
 	// Por padrão, o cargo é mochileiro.
 	sql += std::string("MOCHILEIRO") + "');\n";
@@ -60,11 +56,11 @@ void criar_usuario(pqxx::connection& c){
 
 
 
-	// w.exec( sql.c_str() );
-	// w.commit();
-	std::cout << sql.c_str() << std::endl;
+	w.exec( sql.c_str() );
+	w.commit();
+	// std::cout << sql.c_str() << std::endl;
 
-	std::cout << "\nUsuário criado com sucesso." << std::endl;
+	std::cout << "\nUsuário " << username << " criado com sucesso." << std::endl;
 }
 
 // Lista todas as caravanas nas quais um usuário de nome dado está participando 
@@ -88,7 +84,7 @@ void buscar_caravana(pqxx::connection& c){
 
 	// Não existe nenhum usuario com esse nome
 	if(r.empty()){
-		std::cout << "Username não existe. Cancelando..." << std::endl;
+		std::cout << "Username " << str << " não existe. Cancelando..." << std::endl;
 		return;
 	}
 
