@@ -10,6 +10,7 @@ INSERT INTO USUARIO VALUES
     ('botta', 'Leandro Botta', 'ORGANIZADOR'),
     ('guilhos', 'Guilherme', 'ORGANIZADOR');
 
+
 /* Insere alguns meios de contato para os usuários */
 INSERT INTO CONTATO VALUES
     ('ga', '40028922'),
@@ -151,6 +152,12 @@ INSERT INTO ADENTRA VALUES
     ('carlao', 3, 0), 
     ('madrugideon', 1, 0);
 
+--==
+INSERT INTO USUARIO VALUES ('TESTE', 'TESTE', 'MOCHILEIRO');
+INSERT INTO MOCHILEIRO VALUES ('TESTE');
+INSERT INTO PARTICIPA VALUES ('TESTE', 'guilhos', 'WATANUKI14');
+INSERT INTO ADENTRA VALUES ('TESTE', 1, 25);
+--==
 /* Insere mochileiros que entraram nas caravanas */
 INSERT INTO PARTICIPA VALUES
     ('ga', 'guilhos', 'WATANUKI14'),
