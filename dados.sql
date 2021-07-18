@@ -128,7 +128,7 @@ INSERT INTO TRANSPORTE VALUES
 /* Insere transações no histórico da base de dados */
 INSERT INTO TRANSACOES_FINANCEIRAS VALUES
     ('ga', '2006-03-30 17:00:00', 'TED', 150.0, '123456-0', TRUE),
-    ('atlow', '2006-03-15 21:37:00', 'Deposito', 150.0, '654321-0');
+    ('atlow', '2006-03-15 21:37:00', 'Deposito', 150.0, '654321-0', FALSE);
 
 /* Relações N:M */
 /* Insere usuários que se locomoveram com o transporte disponibilizado */

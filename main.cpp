@@ -38,7 +38,8 @@ void criar_usuario(pqxx::connection& c){
 
 	sql = "INSERT INTO USUARIO VALUES ('" + str + "', '";
 
-	// Faz a leitura do nome e já faz a validação do tamanho
+	// Faz a leitura do nome e já faz a validação do tamanho,
+	// ignora linhas em branco e lê nomes com espaço
 	std::cout << "Nome: ";
 	do{
 		std::getline (std::cin,str);
@@ -161,7 +162,7 @@ int main(int argc, char *argv[]){
 		// Laço que funciona enquanto o usuário não quiser fechar a interface
 		while(!will_exit){
 			std::cout << "\nSelecione:\n" <<
-					"1) Criar Usuário\n" <<
+					"1) Criar novo Mochileiro\n" <<
 					"2) Buscar Caravanas por Usuário\n" <<
 					"3) Sair\n" <<
 					"Escolha: ";

@@ -13,13 +13,7 @@ Instale o pacote `libpqxx-dev` (Ubuntu) ou equivalente.
 
 Instale o [PostgreSQL](https://www.postgresql.org/)
 
-<!-- CREATE USER admin WITH PASSWORD 'admin'; -->
-
-<!-- TODO: descreve isso aqui -->
-
 ## Instalação
-
-<!-- TODO: subir o serviço do postgresql-->
 
 Inicie o serviço
 
