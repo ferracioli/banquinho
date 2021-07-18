@@ -1,9 +1,3 @@
--- CREATE SCHEMA TURISMO;
--- USE TURISMO;
-
-
--- psql admin -h 127.0.0.1 -d banquinho -f database.sql
-
 /* Tabela do usuario */
 CREATE TABLE USUARIO (
     USERNAME VARCHAR(15) NOT NULL,

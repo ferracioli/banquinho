@@ -13,7 +13,8 @@ INSERT INTO USUARIO VALUES
 -- psql admin -h 127.0.0.1 -d banquinho -f /home/gabriel/banquinho/database.sql
 -- abrir o postgres: sudo -i -u postgres
 -- fechar o postgres: \q
-
+INSERT INTO CARAVANA VALUES
+    ('guilhos', 'ajhaajha', 'CARAVANA DO DESESPERO', '2021-09-01 15:00:00', '2021-10-01 22:00:00', '3 horas restantes');
 -- SELECT E.USUARIO, (SUM( G.GASTOS_GANHOS)) FROM ENTRA E JOIN GRUPO_DE_PARTICIPANTES G ON ( E.ATIVIDADE = G.ATIVIDADE AND E.CATEGORIA = G.CATEGORIA)GROUP BY E.USUARIO;
 
 INSERT INTO CONTATO VALUES
@@ -70,6 +71,14 @@ INSERT INTO ITINERARIO VALUES
 INSERT INTO ATIVIDADE VALUES
     (1, 1, 'Passeio de barco no frio extremo', '2006-04-01 15:00:00', '2006-04-03 16:00:00', 'Apesar de exótico, esse passeio atrai milhares de turistas todos os anos', 'Alaska', 360.0, 0.0, 1.0),
     (2, 3, 'Escalada 2km acima', '2012-05-12 15:30:00', '2012-05-15 10:00:00', 'Não há forma de se sentir revigorado melhor que escalar uma montanha', 'Nepal', 43.2, 27.5, 4000.0);
+
+/*======================*/
+INSERT INTO ATIVIDADE VALUES    (3, 2, 'ITINERARIO TOP', '2222-11-11 12:00:00', '2222-11-11 12:00:00' , 'NADA A CIMENTAR', 'BLA', 1.0, 1.0, 1.0);
+INSERT INTO GRUPO_DE_PARTICIPANTES VALUES (3, 'Turistas', 128);
+INSERT INTO ENTRA VALUES    ('ga', 3, 'Turistas');
+INSERT INTO ADENTRA VALUES ('ga', 2, 0.99);
+INSERT INTO ADENTRA VALUES ('vini', 2, 9);
+/*=====================*/
 
 INSERT INTO RESTRICOES VALUES
     (1, 'Baixa taxa de hemoglobina'),
@@ -131,11 +140,15 @@ INSERT INTO ADENTRA VALUES
     ('ga', 1, 500.0),
     ('botta', 1, 500.0),
     ('vini', 1, 500.0),
-    ('atlow', 3, 15.0);
+    ('atlow', 3, 15.0),
+    ('carlao', 3, 0), 
+    ('madrugideon', 1, 0);
+
 
 INSERT INTO PARTICIPA VALUES
     ('ga', 'guilhos', 'WATANUKI14'),
-    ('atlow', 'botta', 'ODRENAEL19');
+    ('atlow', 'botta', 'ODRENAEL19'),
+    ('vini', 'guilhos', 'WATANUKI14');
 
 INSERT INTO AUXILIA VALUES
     ('carlao', 'botta', 'ODRENAEL19'),
