@@ -150,7 +150,6 @@ INSERT INTO OCUPA VALUES
 /* Insere usuários que adentraram em itinerários das caravanas */
 INSERT INTO ADENTRA VALUES
     ('ga', 1, 500.0),
-    ('botta', 1, 500.0),
     ('vini', 1, 500.0),
     ('atlow', 3, 15.0),
     ('carlao', 3, 1.0), 
