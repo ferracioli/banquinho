@@ -5,6 +5,7 @@ INSERT INTO USUARIO VALUES
     ('ga', 'Gabriel', 'MOCHILEIRO'),
     ('atlow', 'Matheus', 'MOCHILEIRO'),
     ('vini', 'Vinicius', 'MOCHILEIRO'),
+    ('TESTE', 'TESTE', 'MOCHILEIRO'),
     ('carlao', 'Carlos Silva', 'ESPECIALISTA'),
     ('madrugideon', 'Ronaldo', 'ESPECIALISTA'),
     ('botta', 'Leandro Botta', 'ORGANIZADOR'),
@@ -51,7 +52,8 @@ INSERT INTO AUTORIZACOES_LEGAIS VALUES
 /* Insere caravanas na base de dados */
 INSERT INTO CARAVANA VALUES
     ('guilhos', 'WATANUKI14', 'Caravana da Coragem', '2006-04-01 15:00:00', '2021-04-01 22:00:00', 'Conheça a aurora boreal conosco'),
-    ('botta', 'ODRENAEL19', 'Rumo ao Himalaia', '2012-05-11 23:20:00', '2012-05-16 08:00:00', 'Conheça o ponto mais alto do planeta e viva uma aventura inesquecível!');
+    ('botta', 'ODRENAEL19', 'Rumo ao Himalaia', '2012-05-11 23:20:00', '2012-05-16 08:00:00', 'Conheça o ponto mais alto do planeta e viva uma aventura inesquecível!'),
+    ('botta', 'ADJENTRL37', 'Rumo ao Grand Canyon', '2025-05-11 23:20:00', '2025-05-16 08:00:00', 'Conheça o famoso desfiladeiro dos Estados Unidos!');
 
 /* Insere pontos turísticos na base */
 INSERT INTO PONTO_TURISTICO VALUES
@@ -73,7 +75,8 @@ INSERT INTO ITINERARIO VALUES
 /* Insere atividades na base de dados */
 INSERT INTO ATIVIDADE VALUES
     (1, 1, 'Passeio de barco no frio extremo', '2006-04-01 15:00:00', '2006-04-03 16:00:00', 'Apesar de exótico, esse passeio atrai milhares de turistas todos os anos', 'Alaska', 360.0, 0.0, 1.0),
-    (2, 3, 'Escalada 2km acima', '2012-05-12 15:30:00', '2012-05-15 10:00:00', 'Não há forma de se sentir revigorado melhor que escalar uma montanha', 'Nepal', 43.2, 27.5, 4000.0);
+    (2, 3, 'Escalada 2km acima', '2012-05-12 15:30:00', '2012-05-15 10:00:00', 'Não há forma de se sentir revigorado melhor que escalar uma montanha', 'Nepal', 43.2, 27.5, 4000.0),
+    (3, 2, 'ITINERARIO TOP', '2222-11-11 12:00:00', '2222-11-11 12:00:00' , 'NADA A COMENTAR', 'BLA', 1.0, 1.0, 1.0);
 
 /* Insere restrições para as atividades */
 INSERT INTO RESTRICOES VALUES
@@ -86,7 +89,8 @@ INSERT INTO GRUPO_DE_PARTICIPANTES VALUES
     (1, 'Especialistas:paramédico', -2000.0),
     (1, 'Turistas', 150.0),
     (2, 'Especialistas:alpinista', -1800.0),
-    (2, 'Turistas', 800.0);
+    (2, 'Turistas', 800.0),
+    (3, 'Turistas', 128);
     
 /* Insere as qualificações necessárias para o grupo de participantes específico de uma atividade */
 INSERT INTO QUALIFICACOES_NECESSARIAS VALUES
@@ -149,20 +153,18 @@ INSERT INTO ADENTRA VALUES
     ('botta', 1, 500.0),
     ('vini', 1, 500.0),
     ('atlow', 3, 15.0),
-    ('carlao', 3, 0), 
-    ('madrugideon', 1, 0);
+    ('carlao', 3, 1.0), 
+    ('madrugideon', 1, 0),
+    ('ga', 2, 0.99),
+    ('vini', 2, 9),
+    ('TESTE', 1, 25);
 
---==
-INSERT INTO USUARIO VALUES ('TESTE', 'TESTE', 'MOCHILEIRO');
-INSERT INTO MOCHILEIRO VALUES ('TESTE');
-INSERT INTO PARTICIPA VALUES ('TESTE', 'guilhos', 'WATANUKI14');
-INSERT INTO ADENTRA VALUES ('TESTE', 1, 25);
---==
 /* Insere mochileiros que entraram nas caravanas */
 INSERT INTO PARTICIPA VALUES
     ('ga', 'guilhos', 'WATANUKI14'),
     ('atlow', 'botta', 'ODRENAEL19'),
-    ('vini', 'guilhos', 'WATANUKI14');
+    ('vini', 'guilhos', 'WATANUKI14'),
+    ('TESTE', 'guilhos', 'WATANUKI14');
 
 /* Insere especialistas que entraram nas caravanas */
 INSERT INTO AUXILIA VALUES
@@ -175,4 +177,5 @@ INSERT INTO ENTRA VALUES
     ('atlow', 2, 'Turistas'),
     ('vini', 1, 'Turistas'),
     ('madrugideon', 1, 'Especialistas:paramédico'),
-    ('carlao', 2, 'Especialistas:alpinista');
+    ('carlao', 2, 'Especialistas:alpinista'),
+    ('ga', 3, 'Turistas');
